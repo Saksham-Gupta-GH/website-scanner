@@ -24,7 +24,7 @@ function DashboardContent() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/analyze?url=${encodeURIComponent(url)}`)
+        const response = await fetch(`/api/analyze?url=${encodeURIComponent(url)}`, { cache: 'no-store' })
         const result = await response.json()
         
         if (result.status === "error") {
