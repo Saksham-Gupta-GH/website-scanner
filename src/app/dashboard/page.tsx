@@ -109,17 +109,51 @@ function DashboardContent() {
         </Card>
       </div>
 
-      {/* Raw Data Output for debugging */}
-      <Card className="bg-zinc-900 border-zinc-800 text-white mt-8">
-        <CardHeader>
-          <CardTitle>Raw Data (Debug)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <pre className="bg-black p-4 rounded-md overflow-x-auto text-xs text-zinc-400">
-            {JSON.stringify(data, null, 2)}
-          </pre>
-        </CardContent>
-      </Card>
+      {/* Detailed Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+        {data?.analysis?.scores && Object.entries(data.analysis.scores).map(([key, value]: [string, any]) => (
+          <Card key={key} className="bg-zinc-900 border-zinc-800 text-white">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-lg capitalize">{key}</CardTitle>
+              <div className={`text-xl font-bold ${value.score >= 90 ? 'text-green-400' : value.score >= 70 ? 'text-yellow-400' : 'text-red-400'}`}>
+                {value.score}/100
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-zinc-400 text-sm leading-relaxed">{value.explanation}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* AI Rewrite */}
+      {data?.analysis?.ai_rewrite && (
+        <Card className="bg-gradient-to-br from-purple-900/20 to-black border-purple-500/20 text-white mt-8">
+          <CardHeader>
+            <CardTitle className="text-xl flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-purple-400" />
+              AI Landing Page Rewrite
+            </CardTitle>
+            <CardDescription className="text-zinc-400">Suggestions to immediately improve your conversion rate</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div>
+              <p className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-2">New Headline</p>
+              <p className="text-2xl font-bold tracking-tight">{data.analysis.ai_rewrite.headline}</p>
+            </div>
+            <div>
+              <p className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-2">New Subheadline</p>
+              <p className="text-lg text-zinc-300">{data.analysis.ai_rewrite.subheadline}</p>
+            </div>
+            <div>
+              <p className="text-xs text-purple-400 font-bold uppercase tracking-wider mb-2">Call to Action (CTA)</p>
+              <div className="inline-block px-6 py-3 bg-white text-black font-medium rounded-full">
+                {data.analysis.ai_rewrite.cta}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   )
 }
