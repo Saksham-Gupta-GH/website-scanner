@@ -78,6 +78,25 @@ function DashboardContent() {
         </div>
       </div>
 
+      {data?.analysis?.error && (
+        <Card className="bg-red-900/20 border-red-500/50 text-white mt-8">
+          <CardHeader>
+            <CardTitle className="text-red-400 flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5" />
+              AI Processing Error
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-zinc-300">{data.analysis.error}</p>
+            {data.analysis.raw && (
+              <pre className="mt-4 bg-black p-4 rounded-md overflow-x-auto text-xs text-zinc-400">
+                {data.analysis.raw}
+              </pre>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="bg-zinc-900 border-zinc-800 text-white md:col-span-1">
           <CardHeader>

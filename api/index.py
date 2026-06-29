@@ -30,7 +30,17 @@ async def analyze_website(url: str):
         
         # Parse JSON
         try:
-            analysis_result = json.loads(ai_response_raw)
+            # Strip markdown formatting if Gemini returns it
+            clean_json = ai_response_raw.strip()
+            if clean_json.startswith("```json"):
+                clean_json = clean_json[7:]
+            if clean_json.startswith("```"):
+                clean_json = clean_json[3:]
+            if clean_json.endswith("```"):
+                clean_json = clean_json[:-3]
+            clean_json = clean_json.strip()
+            
+            analysis_result = json.loads(clean_json)
         except json.JSONDecodeError:
             analysis_result = {"error": "Failed to parse AI response", "raw": ai_response_raw}
             
