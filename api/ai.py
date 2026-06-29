@@ -6,7 +6,7 @@ import google.generativeai as genai
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # Use the recommended model for text processing
-model = genai.GenerativeModel('gemini-1.5-pro')
+model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
 async def analyze_website_content(crawled_data: dict):
     prompt = f"""
