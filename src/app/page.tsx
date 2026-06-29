@@ -26,10 +26,7 @@ export default function Home() {
           <span>OptimizAI</span>
         </div>
         <div className="flex items-center gap-4">
-          {/* Removed Sign In functionality for now */}
-          <Button className="bg-white text-black hover:bg-zinc-200 rounded-full font-medium">
-            Get Started
-          </Button>
+          {/* Removed Sign In and Get Started functionality for now */}
         </div>
       </nav>
 
