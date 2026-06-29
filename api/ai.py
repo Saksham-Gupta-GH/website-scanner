@@ -1,4 +1,5 @@
 import os
+import httpx
 import google.generativeai as genai
 
 # Configure Gemini API
@@ -6,7 +7,36 @@ import google.generativeai as genai
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # Use the recommended model for text processing
-model = genai.GenerativeModel('gemini-2.5-flash-lite')
+gemini_model = genai.GenerativeModel('gemini-2.5-flash-lite')
+
+async def call_openrouter(prompt: str) -> str:
+    api_key = os.environ.get("OPENROUTER_API_KEY")
+    if not api_key:
+        raise Exception("OPENROUTER_API_KEY is not set.")
+        
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    
+    # We use a free model from OpenRouter
+    data = {
+        "model": "meta-llama/llama-3-8b-instruct:free",
+        "messages": [
+            {"role": "user", "content": prompt}
+        ]
+    }
+    
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            json=data,
+            timeout=30.0
+        )
+        response.raise_for_status()
+        result = response.json()
+        return result["choices"][0]["message"]["content"]
 
 async def analyze_website_content(crawled_data: dict):
     prompt = f"""
@@ -40,7 +70,14 @@ async def analyze_website_content(crawled_data: dict):
     """
     
     try:
-        response = await model.generate_content_async(prompt)
+        # First try Gemini
+        response = await gemini_model.generate_content_async(prompt)
         return response.text
     except Exception as e:
-        return f'{{"error": "{str(e)}"}}'
+        print(f"Gemini API failed: {e}. Falling back to OpenRouter...")
+        try:
+            # Fallback to OpenRouter
+            openrouter_response = await call_openrouter(prompt)
+            return openrouter_response
+        except Exception as fallback_error:
+            return f'{{"error": "Gemini failed: {str(e)} | OpenRouter fallback failed: {str(fallback_error)}"}}'

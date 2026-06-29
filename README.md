@@ -34,9 +34,10 @@ pip install -r requirements.txt
 ```
 
 ### 3. Environment Variables
-Create a `.env` file in the root directory and add your Gemini API Key:
+Create a `.env` file in the root directory and add your API Keys:
 ```env
 GEMINI_API_KEY=your_google_gemini_api_key_here
+OPENROUTER_API_KEY=your_openrouter_api_key_here # Fallback if Gemini quota is exceeded
 ```
 
 ### 4. Run the Development Server
