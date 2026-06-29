@@ -26,7 +26,9 @@ export default function Home() {
           <span>OptimizAI</span>
         </div>
         <div className="flex items-center gap-4">
-          {/* Removed Sign In and Get Started functionality for now */}
+          <a href="https://github.com/Saksham-Gupta-GH" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors text-sm font-medium">
+            GitHub
+          </a>
         </div>
       </nav>
 

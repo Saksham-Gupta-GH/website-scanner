@@ -180,11 +180,14 @@ function DashboardContent() {
 export default function Dashboard() {
   return (
     <div className="min-h-screen bg-black text-white p-6 md:p-12">
-      <nav className="mb-12">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tighter w-fit hover:opacity-80 transition-opacity">
+      <nav className="mb-12 flex items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tighter hover:opacity-80 transition-opacity">
           <Sparkles className="w-5 h-5 text-purple-400" />
           <span>OptimizAI</span>
         </Link>
+        <a href="https://github.com/Saksham-Gupta-GH" target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white transition-colors text-sm font-medium">
+          GitHub
+        </a>
       </nav>
       
       <main className="max-w-6xl mx-auto">
