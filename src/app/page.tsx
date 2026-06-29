@@ -1,8 +1,22 @@
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Sparkles } from "lucide-react"
 
 export default function Home() {
+  const [url, setUrl] = useState("")
+  const router = useRouter()
+
+  const handleAnalyze = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (url) {
+      router.push(`/dashboard?url=${encodeURIComponent(url)}`)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-black text-white selection:bg-purple-500/30">
       {/* Navbar */}
@@ -12,7 +26,7 @@ export default function Home() {
           <span>OptimizAI</span>
         </div>
         <div className="flex items-center gap-4">
-          <Button variant="ghost" className="text-zinc-400 hover:text-white">Sign In</Button>
+          {/* Removed Sign In functionality for now */}
           <Button className="bg-white text-black hover:bg-zinc-200 rounded-full font-medium">
             Get Started
           </Button>
@@ -35,21 +49,27 @@ export default function Home() {
           Get actionable insights and AI-generated redesigns to boost conversions.
         </p>
 
-        <div className="w-full max-w-md flex items-center gap-2 p-1.5 bg-zinc-900 border border-zinc-800 rounded-full focus-within:border-purple-500/50 focus-within:ring-4 focus-within:ring-purple-500/10 transition-all">
+        <form 
+          onSubmit={handleAnalyze}
+          className="w-full max-w-md flex items-center gap-2 p-1.5 bg-zinc-900 border border-zinc-800 rounded-full focus-within:border-purple-500/50 focus-within:ring-4 focus-within:ring-purple-500/10 transition-all"
+        >
           <Input 
-            placeholder="Enter your website URL (e.g., startup.com)" 
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Enter your website URL (e.g., https://startup.com)" 
             className="bg-transparent border-none text-white placeholder:text-zinc-500 focus-visible:ring-0 px-4 h-11"
+            type="url"
+            required
           />
-          <Button className="rounded-full bg-purple-600 hover:bg-purple-500 h-11 px-6 font-medium">
+          <Button type="submit" className="rounded-full bg-purple-600 hover:bg-purple-500 h-11 px-6 font-medium">
             Analyze
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
-        </div>
+        </form>
         
         <div className="mt-20 pt-10 border-t border-white/5 w-full">
           <p className="text-sm text-zinc-500 mb-6">Trusted by founders and marketing teams</p>
           <div className="flex flex-wrap justify-center gap-8 opacity-50 grayscale">
-            {/* Logos would go here, using text placeholders for now */}
             <span className="font-bold text-xl">ACME Corp</span>
             <span className="font-bold text-xl">Globex</span>
             <span className="font-bold text-xl">Soylent</span>
