@@ -19,9 +19,9 @@ async def call_openrouter(prompt: str) -> str:
         "Content-Type": "application/json"
     }
     
-    # We use a free model from OpenRouter
+    # We use the generic free router from OpenRouter which auto-selects available free models
     data = {
-        "model": "meta-llama/llama-3-8b-instruct:free",
+        "model": "openrouter/free",
         "messages": [
             {"role": "user", "content": prompt}
         ]
